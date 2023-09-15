@@ -1,0 +1,44 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "type": "object",
+    "properties": {
+        "data": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "company_id": {
+                        "type": "integer"
+                    },
+                    "company_name": {
+                        "type": "string"
+                    },
+                    "company_address": {
+                        "type": "string"
+                    },
+                    "company_status": {
+                        "enum": [
+                            "ACTIVE",
+                            "BANKRUPT",
+                            "CLOSED"
+                        ]
+                    }
+                }
+            }
+        },
+        "meta": {
+            "type": "object",
+            "properties": {
+                "limit": {
+                    "type": "integer"
+                },
+                "offset": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        }
+    }
+}
