@@ -1,12 +1,5 @@
-from enum import Enum
 from pydantic import BaseModel
-
-# Enumeration
-class CompanyStatys(str, Enum):
-    ACTIVE = "ACTIVE"
-    BANKRUPT = "BANKRUPT"
-    CLOSED = "CLOSED"        
-# End Enumeration
+from src.enums.company_enums import CompanyStatys
 
 class Meta(BaseModel):
     limit:int

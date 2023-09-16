@@ -1,10 +1,9 @@
-from jsonschema import validate
 from src.enums.global_enums import GLOBAL_ERORR_MASSEGE
 
 class Response:
     def __init__(self,response) -> None:
         self.response = response
-        self.response_json = response.json()
+        self.response_data = response.json()['data']
         self.status_code = response.status_code
 
     def valisete_status_code(self,status_code):
@@ -13,7 +12,12 @@ class Response:
         else:
             assert self.status_code == status_code
 
-    def validetejson(self,schema):
-        validate(instance=self.response_json,schema=schema)
+    def validete_data(self,schema):
+        if isinstance(self.response_data,list):
+            for c in (self.response_data):
+                schema.model_validate(c)
+        else:
+            schema.model_validate(self.response_data)
+
     
     
