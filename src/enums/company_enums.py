@@ -1,6 +1,8 @@
-from enum import Enum
+from src.enums.global_enums import BaseEnum
 
-class CompanyStatys(str, Enum):
+
+
+class CompanyStatys(BaseEnum):
     ACTIVE = "ACTIVE"
     BANKRUPT = "BANKRUPT"
     CLOSED = "CLOSED"    
