@@ -1,1 +1,1 @@
-TESTED_URL = 'https://send-request.me/api/companies/'
+TESTED_URL = 'https://send-request.me/api/'
