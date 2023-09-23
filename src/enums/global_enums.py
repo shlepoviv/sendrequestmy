@@ -3,7 +3,8 @@ from enum import Enum
 class BaseEnum(Enum):
     @classmethod
     def return_all_count(cls):
-        return [map(lambda v: v.value, cls)]
+        list_of_value = list(map(lambda v: v.value, cls))
+        return list_of_value
 
 class GLOBAL_ERORR_MASSEGE(BaseEnum):
     WRONG_COdE= 'Wrong respose code'
