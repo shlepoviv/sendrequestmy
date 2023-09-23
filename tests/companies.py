@@ -5,6 +5,7 @@ from src.pydantic_schemas.company import CompanyList
 from src.base_clases.response import Response
 from src.enums.company_enums import CompanyStatys
 
+pytestmark = pytest.mark.companies
 
 def test_getting_post_list_companies(get_post):
     '''
@@ -14,6 +15,7 @@ def test_getting_post_list_companies(get_post):
     respose = Response(get_post('companies'))
     respose.valisete_status_code(200)
     respose.validete_data(CompanyList)
+
 
 @pytest.mark.parametrize ('status',CompanyStatys.return_all_count())
 def test_getting_post_list_companies_with_status_filtr(status,get_post):
@@ -26,6 +28,7 @@ def test_getting_post_list_companies_with_status_filtr(status,get_post):
     respose.validete_data(CompanyList)
     for i in respose.find_in_respose_data(['data']):
         assert i['company_status'] == status
+
 
 @pytest.mark.parametrize ('limit,offset,exept',[
     (1,3,1),
