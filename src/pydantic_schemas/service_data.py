@@ -10,15 +10,16 @@ class Meta(BaseModel):
 
 
 class ValidationError(BaseModel):
-    loc : List[Union[int, str]]
+    loc : List[str]
+    # loc : List[Union[str,int]]
     msg: str
-    title: str
+  #  title: str
     type: str
 
 
 class HTTPValidationError(BaseModel):
     detail:	List[ValidationError]
 
-
+ValidationError.validete_data("loc":["path","company_id"],"msg":"value is not a valid integer","type":"type_error.integer")
 
 

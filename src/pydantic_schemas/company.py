@@ -6,15 +6,15 @@ from src.enums.global_enums import TranslationLangsstring
 
 class CompanyDescription(BaseModel):
     translation_lang:TranslationLangsstring
-    translation: str
+    translation: str = Field(default='')
 
 class Company(BaseModel):
     company_id: int
     company_name: str
     company_address: str
     company_status: CompanyStatys
-    description_lang: CompanyDescription = Field(default=None)
-    description: str = Field(default='')
+    description_lang: List[CompanyDescription] = Field(default=None)
+
 
 
 
