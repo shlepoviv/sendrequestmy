@@ -44,7 +44,9 @@ class Response:
     def __str__(self) -> str:
         return f'\n'\
             f'Status code= {self.status_code} \n'\
+            f'Response data= {self.response.url} \n'\
             f'Response data= {self.response_data}'
+            
 
     
     
