@@ -1,46 +1,8 @@
 import pytest
-import requests
-from configure import TESTED_URL
 
-def _get_post(api_path,object_id = None,params_req=None,headers = None):
-    resurl=TESTED_URL
-    if not isinstance(api_path,list):
-        api_path = [api_path]
-    for lvl in api_path:
-        resurl = resurl + f'{lvl}/' 
-    if  object_id:      
-        resurl = resurl + f'{object_id}' 
-    if not params_req:
-        params_req = {'None':None}
-    if not headers:
-        headers = {'None':None}
-        
-    r = requests.get(url=resurl,params=params_req,headers=headers,timeout=10)
-    return r
-
+from src.base_clases.param_requests import ApiRequests
 
 @pytest.fixture()
 def get_post():
-    return _get_post
-
-
-def _post_post(api_path,object_id = None,params_req=None,headers = None):
-    resurl=TESTED_URL
-    if not isinstance(api_path,list):
-        api_path = [api_path]
-    for lvl in api_path:
-        resurl = resurl + f'{lvl}/' 
-    if  object_id:      
-        resurl = resurl + f'{object_id}' 
-    if not params_req:
-        params_req = {'None':None}
-    if not headers:
-        headers = {'None':None}
-        
-    r = requests.post(url=resurl,params=params_req,headers=headers,timeout=10)
-    return r
-
-@pytest.fixture()
-def post_post():
-    return _post_post
-
+    req = ApiRequests()
+    return req
