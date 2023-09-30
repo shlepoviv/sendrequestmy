@@ -7,7 +7,10 @@ class ApiRequests():
         self.timeout = 10
         self.params_req = {'None': None}
         self.headers = {'None': None}
+        self.parameter_finilize = None
         self._parse_parameters(**kwarg)
+        self.data = None
+        self.json = None
 
     def _parse_parameters(self, **kwarg) -> None:
         for par in kwarg:
@@ -27,6 +30,15 @@ class ApiRequests():
             if par == 'headers':
                 self.headers = kwarg[par]
 
+            if par == 'data':
+                self.headers = kwarg[par]
+
+            if par == 'json':
+                self.headers = kwarg[par]
+                
+            if par == 'parameter_finilize':
+                self.headers = kwarg[par]
+
     def set_parameters(self, **kwarg):
         self._parse_parameters(**kwarg)
 
@@ -34,9 +46,21 @@ class ApiRequests():
         return requests.get(url=self.resurl, params=self.params_req,
                          headers=self.headers, timeout=self.timeout)
     
-    def get_(self):
-        return requests.get(url=self.resurl, params=self.params_req,
+    def sed_delete(self):
+        return requests.delete(url=self.resurl, params=self.params_req,
                          headers=self.headers, timeout=self.timeout)
+    
+    def sed_post(self):
+        return requests.post(url=self.resurl, params=self.params_req,
+                         headers=self.headers,data=self.data,json=self.json, timeout=self.timeout)
+    def sed_put(self):
+        return requests.put(url=self.resurl, params=self.params_req,
+                         headers=self.headers,data=self.data,json=self.json, timeout=self.timeout)
+    
+    def finalise(self):
+        if isinstance(self.parameter_finilize,dict):
+            requests.delete(url=self.resurl,**self.parameter_finilize,timeout=self.timeout)    
+    
 
 
 if __name__ == '__main__':
