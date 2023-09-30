@@ -30,13 +30,15 @@ class ApiRequests():
     def set_parameters(self, **kwarg):
         self._parse_parameters(**kwarg)
 
-    def get_post(self):
-
-
+    def send_get(self):
+        return requests.get(url=self.resurl, params=self.params_req,
+                         headers=self.headers, timeout=self.timeout)
+    
+    def get_(self):
         return requests.get(url=self.resurl, params=self.params_req,
                          headers=self.headers, timeout=self.timeout)
 
 
 if __name__ == '__main__':
     test_req = ApiRequests(api_path='users', params_req={'limit': 2, 'offset': 1})
-    print(test_req.get_post())
+    print(test_req.send_get())
