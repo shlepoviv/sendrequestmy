@@ -52,6 +52,8 @@ def test_getting_post_list_companies_with_limitoffet_filtr(limit, offset, exept,
     assert len(respose.find_in_respose_data(['data'])) == exept
     assert respose.find_in_respose_data(['meta', 'limit']) == limit
     assert respose.find_in_respose_data(['meta', 'offset']) == offset
+    assert respose.find_in_respose_data(['meta', 'limit']) == limit
+    assert respose.find_in_respose_data(['meta', 'offset']) == offset
 
 
 # Структуру компании и статус код.
@@ -81,6 +83,7 @@ def test_getting_post_company_with_Accept_laguage(header, request_company):
     respose.validete_data(Company)
 
 
+
 @pytest.mark.parametrize('object_id', ['a', 100500])
 def test_getting_bed_post_company(object_id, request_company):
     '''
@@ -92,3 +95,4 @@ def test_getting_bed_post_company(object_id, request_company):
     respose.valisete_status_code([404, 422])
     if respose.status_code == 422:
         respose.validete_data(HTTPValidationError)
+
