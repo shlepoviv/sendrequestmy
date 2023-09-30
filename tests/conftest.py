@@ -10,4 +10,6 @@ def request_company():
 @pytest.fixture()
 def request_user():
     req = ApiRequests(api_path='users')
-    return req
+    yield req
+    if req.parameter_finilize:
+        req.finalise()

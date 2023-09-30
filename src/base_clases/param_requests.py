@@ -10,7 +10,6 @@ class ApiRequests():
         self.parameter_finilize = None
         self._parse_parameters(**kwarg)
         self.data = None
-        self.json = None
 
     def _parse_parameters(self, **kwarg) -> None:
         for par in kwarg:
@@ -31,13 +30,10 @@ class ApiRequests():
                 self.headers = kwarg[par]
 
             if par == 'data':
-                self.headers = kwarg[par]
-
-            if par == 'json':
-                self.headers = kwarg[par]
+                self.data = kwarg[par]
                 
             if par == 'parameter_finilize':
-                self.headers = kwarg[par]
+                self.parameter_finilize = kwarg[par]
 
     def set_parameters(self, **kwarg):
         self._parse_parameters(**kwarg)
@@ -46,23 +42,25 @@ class ApiRequests():
         return requests.get(url=self.resurl, params=self.params_req,
                          headers=self.headers, timeout=self.timeout)
     
-    def sed_delete(self):
+    def send_delete(self):
         return requests.delete(url=self.resurl, params=self.params_req,
                          headers=self.headers, timeout=self.timeout)
     
-    def sed_post(self):
+    def send_post(self):
         return requests.post(url=self.resurl, params=self.params_req,
-                         headers=self.headers,data=self.data,json=self.json, timeout=self.timeout)
-    def sed_put(self):
+                         headers=self.headers,json=self.data, timeout=self.timeout)
+    def send_put(self):
         return requests.put(url=self.resurl, params=self.params_req,
-                         headers=self.headers,data=self.data,json=self.json, timeout=self.timeout)
+                         headers=self.headers,json=self.data, timeout=self.timeout)
     
     def finalise(self):
         if isinstance(self.parameter_finilize,dict):
-            requests.delete(url=self.resurl,**self.parameter_finilize,timeout=self.timeout)    
+            self._parse_parameters(**self.parameter_finilize)
+            self.send_delete()   
     
 
 
 if __name__ == '__main__':
-    test_req = ApiRequests(api_path='users', params_req={'limit': 2, 'offset': 1})
-    print(test_req.send_get())
+
+    pass
+

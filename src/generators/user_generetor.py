@@ -15,10 +15,10 @@ class UserGenerator(BaseGenerator):
         self.first_name = self._faker.first_name()
 
 if __name__ == '__main__':
-    user = UserGenerator()
-    print(user.last_name) 
-    user.set_localizations('ru_RU')
-    user.gen_first_name()
-    user.gen_last_name()
-    print(user.last_name)    
-    print(user.get_object())
+    _user = UserGenerator()
+    print(_user.last_name) 
+    _user.set_localizations('ru_RU')
+    _user.gen_first_name()
+    _user.gen_last_name()
+    print(_user.last_name)    
+    print(_user.get_object())
