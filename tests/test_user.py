@@ -103,7 +103,7 @@ def test_getting_post_user(request_user,test_user):
 
 def test_getting_non_existent_user(request_user,test_user):
     '''
-    Get non_existent user, chek the obgect structure, chek status code
+    Get non existent user, chek the obgect structure, chek status code
     Получить несуществующего пользователя, проверить структуру объектов, проверить статус код.
     '''
     request_user.set_parameters(object_id = (test_user['user_id']+100))
@@ -112,3 +112,53 @@ def test_getting_non_existent_user(request_user,test_user):
     if respose.status_code == 422:
         respose.validete_data(HTTPValidationError)
 
+
+def test_change_user(request_user,test_user,active_company):
+    '''
+    Change user, chek the obgect structure, chek status code
+    Изменить пользователя, проверить структуру объектов, проверить статус код.
+    '''
+    test_user['first_name'] = None
+    test_user['company_id'] = active_company['company_id']
+    request_user.set_parameters(object_id = test_user.pop('user_id'),data = test_user)
+    respose = Response(request_user.send_put())
+    respose.valisete_status_code(200)
+    respose.validete_data(ResponseUser)
+    assert respose.find_in_respose_data('first_name') == None
+    assert respose.find_in_respose_data('company_id') == active_company['company_id']
+
+@pytest.mark.parametrize('par,val',
+                         [('company_id',100500),
+                          ('company_id','closed_company'),
+                          ('last_name', None)])
+def test_negative_change_user(par,val,request_user,test_user,closed_company):
+    '''
+    Change user, chek the obgect structure, chek status code
+    Изменить пользователя, проверить структуру объектов, проверить статус код.
+    '''
+    test_user[par] = val if val !='closed_company' else closed_company
+    request_user.set_parameters(object_id = test_user.pop('user_id'),data = test_user)
+    respose = Response(request_user.send_put())
+    respose.valisete_status_code([404, 422])
+    if respose.status_code == 422:
+        respose.validete_data(HTTPValidationError)
+
+def test_delete_user(request_user,test_user):
+    '''
+    Delete user, chek status code
+    Удалить пользователя, проверить статус код.
+    '''
+    request_user.set_parameters(object_id = test_user.pop('user_id'))
+    respose = Response(request_user.send_delete())
+    respose.valisete_status_code(202)
+
+def test_negative_delete_user(request_user,test_user):
+    '''
+    Delete non existing non user, chek status code
+    Удалить несуществующего пользователя, проверить статус код.
+    '''
+    request_user.set_parameters(object_id = (test_user.pop('user_id')+100))
+    respose = Response(request_user.send_delete())
+    respose.valisete_status_code([404, 422])
+    if respose.status_code == 422:
+        respose.validete_data(HTTPValidationError)
