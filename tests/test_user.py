@@ -63,4 +63,52 @@ def test_create_user(company_id,localaze,first_name,request_user):
     respose.valisete_status_code(201)
     respose.validete_data(ResponseUser)
     request_user.set_parameters(parameter_finilize = {'object_id':respose.find_in_respose_data('user_id')})
-    
+
+@pytest.mark.parametrize ('last_name,company_id',[
+    (True,None),
+    (False,100500)
+    ]
+    )
+
+def test_negative_create_user(last_name,company_id,request_user):
+    '''
+    Check create user
+    Проверить создание пользователя
+    '''
+    user = UserGenerator()
+    if last_name:
+        user.gen_first_name() 
+        user.last_name = None
+    data = user.get_object()
+    if company_id:
+        data['company_id'] = company_id
+    request_user.set_parameters(data = data)
+    respose = Response(request_user.send_post())
+    respose.valisete_status_code([404, 422])
+    if respose.status_code == 422:
+        respose.validete_data(HTTPValidationError)
+
+
+
+def test_getting_post_user(request_user,test_user):
+    '''
+    Get user, chek the obgect structure, chek status code
+    Получить пользователя, проверить структуру объектов, проверить статус код.
+    '''
+    request_user.set_parameters(object_id = test_user['user_id'])
+    respose = Response(request_user.send_get())
+    respose.valisete_status_code(200)
+    respose.validete_data(ResponseUser)
+
+
+def test_getting_non_existent_user(request_user,test_user):
+    '''
+    Get non_existent user, chek the obgect structure, chek status code
+    Получить несуществующего пользователя, проверить структуру объектов, проверить статус код.
+    '''
+    request_user.set_parameters(object_id = (test_user['user_id']+100))
+    respose = Response(request_user.send_get())
+    respose.valisete_status_code([404, 422])
+    if respose.status_code == 422:
+        respose.validete_data(HTTPValidationError)
+
