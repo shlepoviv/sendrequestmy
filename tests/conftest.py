@@ -44,3 +44,9 @@ def closed_company():
     req.set_parameters(params_req={'status': CompanyStatys.CLOSED.value,'limit': 1, 'offset': 0})
     respose = Response(req.send_get())
     return respose.response_data['data'][0]
+
+
+@pytest.fixture()
+def request_auth():
+    req = ApiRequests(api_path=['auth','authorize'])
+    return req
