@@ -22,9 +22,9 @@ def request_user():
 @pytest.fixture()
 def test_user(request):
     req = ApiRequests(api_path='users')
-    test_user = UserGenerator()
-    test_user.gen_first_name() 
-    data = test_user.get_object()
+    t_user = UserGenerator()
+    t_user.gen_first_name() 
+    data = t_user.get_object()
     req.set_parameters(data = data)   
     respose = Response(req.send_post())
     req.set_parameters(parameter_finilize = {'object_id':respose.find_in_respose_data('user_id')})
