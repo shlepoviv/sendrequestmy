@@ -22,7 +22,7 @@ class ResponseUser(BaseModel):
     user_id: int
 
 class MeResponse(BaseModel):
-    token: str
+    token: Optional[str] = Field(default = None)
     user_name: str
     email_address:	EmailStr 
     valid_till:	datetime
